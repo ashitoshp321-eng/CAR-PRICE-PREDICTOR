@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction History</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        *{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif}
+        body{min-height:100vh;background:#050505;color:#fff}
+        .bg{position:fixed;inset:0;background: url("{{ url_for('static', filename='car-bg.jpg') }}") center/cover no-repeat;filter:brightness(0.25);z-index:-1}
+        nav{width:100%;padding:20px 40px;display:flex;justify-content:space-between;align-items:center}
+        .logo{font-weight:800;color:#fff}
+        ul{display:flex;gap:20px;list-style:none}
+        a{color:#fff;text-decoration:none}
+        .wrap{max-width:1000px;margin:100px auto;padding:30px;background:rgba(255,255,255,0.04);border-radius:12px}
+        table{width:100%;border-collapse:collapse;color:#fff}
+        th,td{text-align:left;padding:12px;border-bottom:1px solid rgba(255,255,255,0.06)}
+        th{color:#00e5ff}
+        .empty{padding:40px;text-align:center;color:#ccc}
+        .back{display:inline-block;margin-top:16px;padding:10px 16px;background:#00e5ff;color:#000;border-radius:8px;text-decoration:none}
+    </style>
+</head>
+<body>
+
+    <div class="bg"></div>
+
+    <nav>
+        <div class="logo">CAR PRICE PREDICTOR</div>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('history') }}">Prediction History</a></li>
+        </ul>
+    </nav>
+
+    <div class="wrap">
+        <h2>Prediction History</h2>
+
+        {% if records and records|length > 0 %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Horsepower</th>
+                    <th>Engine Size</th>
+                    <th>Curb Weight</th>
+                    <th>Predicted Price (₹)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in records %}
+                <tr>
+                    <td>{{ r.timestamp }}</td>
+                    <td>{{ r.horsepower }}</td>
+                    <td>{{ r.enginesize }}</td>
+                    <td>{{ r.curbweight }}</td>
+                    <td>{{ r.predicted_price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty">No predictions yet. Make a prediction from the <a class="back" href="{{ url_for('home') }}">Home</a> page.</div>
+        {% endif %}
+
+    </div>
+
+</body>
+</html>
